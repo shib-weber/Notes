@@ -18,8 +18,6 @@ function TokenVerify(req, res, next) {
         return res.redirect('/home')
     }
     const key = "hello";
-    console.log(key)
-
     jwt.verify(token, key, (err, decoded) => {
         if (err) {
             res.redirect('/home')
@@ -115,6 +113,10 @@ router.get('/logout', (req, res) => {
 
 router.get('/myNotes',TokenVerify,(req,res)=>{
     return res.render('myNotes')
+})
+
+router.get('/cnNote',TokenVerify,(req,res)=>{
+    return res.render('cnNote')
 })
 
 module.exports = router

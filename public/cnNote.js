@@ -14,6 +14,3 @@ document.addEventListener('click', (event) => {
     }
 });
 
-document.querySelector('.newNote').addEventListener('click',()=>{
-    window.location.href='/cnNote'
-})
