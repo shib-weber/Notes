@@ -5,8 +5,7 @@ const mongoose = require('mongoose')
 const { User } = require('../models/user')
 const jwt = require('jsonwebtoken')
 const cookieParser = require('cookie-parser');
-const { Console } = require('console');
-
+require('dotenv')
 
 
 const router = express.Router();
@@ -18,7 +17,8 @@ function TokenVerify(req, res, next) {
     if (!token) {
         return res.redirect('/home')
     }
-    const key = process.env.secret_key;
+    const key = "hello";
+    console.log(key)
 
     jwt.verify(token, key, (err, decoded) => {
         if (err) {
@@ -30,7 +30,7 @@ function TokenVerify(req, res, next) {
 }
 
 router.get('/', TokenVerify, (req, res) => {
-    res.redirect('/yourNotes')
+    res.redirect('/myNotes')
 })
 
 router.get('/home', (req, res) => {
@@ -98,13 +98,13 @@ router.post('/login', async(req, res) => {
     if (!ruser) {
         return res.render('login', { message: 'Incorrect Email or Password' })
     } else {
-        const key = process.env.secret_key;
+        const key = "hello";
         const token = jwt.sign({ username: ruser.Email, userid: ruser._id }, key, { expiresIn: '30d' })
         res.cookie('token', token, {
             httpOnly: true,
             maxAge: 24 * 60 * 60 * 1000
         })
-        return res.redirect('/yourNotes')
+        return res.redirect('/myNotes')
     }
 })
 
@@ -113,5 +113,8 @@ router.get('/logout', (req, res) => {
     res.redirect('/home')
 })
 
+router.get('/myNotes',(req,res)=>{
+    return res.render('myNotes')
+})
 
 module.exports = router
