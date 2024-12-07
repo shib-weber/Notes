@@ -55,7 +55,7 @@ function validateEmailDomain(email, callback) {
 }
 
 router.get('/signup', (req, res) => {
-    return res.render('signup')
+    return res.render('signup',{message:''})
 })
 
 router.post('/signup', async(req, res) => {
@@ -89,7 +89,7 @@ router.post('/signup', async(req, res) => {
 });
 
 router.get('/login', (req, res) => {
-    return res.render('login')
+    return res.render('login',{message:''})
 })
 
 router.post('/login', async(req, res) => {
@@ -113,7 +113,7 @@ router.get('/logout', (req, res) => {
     res.redirect('/home')
 })
 
-router.get('/myNotes',(req,res)=>{
+router.get('/myNotes',TokenVerify,(req,res)=>{
     return res.render('myNotes')
 })
 
