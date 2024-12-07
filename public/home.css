@@ -1,0 +1,138 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #121212;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Navbar Styling */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.8rem 2rem;
+    background-color: #1e1e1e;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.logo a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 1.5rem;
+}
+
+.nav-links li {
+    display: inline;
+}
+
+.nav-links a {
+    color: #bbb;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.3s;
+}
+
+.nav-links a:hover {
+    color: #fff;
+}
+
+/* Responsive Menu Toggle */
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+}
+
+.menu-toggle span {
+    width: 25px;
+    height: 3px;
+    background-color: #fff;
+    margin: 3px 0;
+}
+
+#logo {
+    display: block;
+    max-width: 90%;
+    height: auto;
+    margin: 0 auto;
+    position: relative;
+}
+
+#container {
+    justify-self: center;
+    align-self: center;
+    position: relative;
+    display: inline-block;
+}
+
+#getstartbtn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(135deg, purple, violet);;
+    color: #fff;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+    width: 35%;
+    height: 35%;
+    border-radius: 50%;
+}
+
+#getstartbtn:hover {
+    background-color: #0056b3;
+}
+
+.info{
+    color: white;
+    display: flex;
+    justify-self: center;
+    align-self: center;
+    text-align: center;
+    font-size: x-large;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+.nav-links {
+    display: none;
+    flex-direction: column;
+    background-color: #1e1e1e;
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    width: 200px;
+    padding: 1rem;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.nav-links.show {
+    display: flex;
+    z-index: 10;
+}
+
+.menu-toggle {
+    display: flex;
+}
+
+#logo {
+    max-width: 100%;
+}
+
+.info{
+    width: 90%;
+    font-size: larger
+}
+}
