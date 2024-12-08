@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyNotes</title>
+    <link rel="stylesheet" href="/myNotes.css">
+    <link rel="stylesheet" href="/cnNote.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="app-name">
+            <a id="save" href="/myNotes"><=</a>
+            <a href="#">Notes</a>
+        </div>
+        <div class="right-section">
+            <div class="user-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="50" height="50">
+                    <!-- Head -->
+                    <circle cx="32" cy="20" r="10" fill="white" />
+                    <!-- Body (Half visible) -->
+                    <path d="M22 32h20a20 20 0 00-20 20v6H22V52a20 20 0 010-20z" fill="white" />
+                </svg>
+            </div>
+            <div class="menu-container">
+                <button class="menu-toggle">⋮</button>
+                <ul class="menu-dropdown">
+                    <li><a href="/profile">Profile</a></li>
+                    <li><a href="/settings">Settings</a></li>
+                    <li><a href="/logout">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="text-area-container">
+        <textarea id="note" placeholder="Write your notes here...">
+<% if (locals.note) { %><%= note.note %>
+            <% } %>
+        </textarea>
+    </div>
+    
+    <script src=""></script>
+</body>
+</html>

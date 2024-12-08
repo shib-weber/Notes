@@ -80,6 +80,8 @@ body {
 }
 
 .newNote{
+    z-index: 100;
+    background-color: #121212;
     position: absolute;
     left: 80%;
     top: 80%;

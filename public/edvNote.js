@@ -31,23 +31,33 @@ noteInput.addEventListener('input', () => {
 document.querySelector('#save').addEventListener('click', () => {
     const note = localStorage.getItem('note'); // Retrieve the note from localStorage
 
-    if (note !== undefined) {
-        fetch('/cnNote', {
-            method: "POST",
+    // Extract the ID from the current URL
+    const path = window.location.pathname;
+    const idMatch = path.match(/\/edNote\/(.+)/); // Match "/edNote/{id}"
+    const noteId = idMatch ? idMatch[1] : null;
+
+    if (noteId && note !== undefined) {
+        fetch(`/edNote/${noteId}`, {
+            method: "PATCH",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({ note: note }),
         })
-        .then(response => response.json(),
-        localStorage.removeItem('note'))
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to update the note');
+            }
+            return response.json();
+        })
         .then(data => {
-            console.log('Note sent successfully:', data);
+            console.log('Note updated successfully:', data);
             localStorage.removeItem('note'); // Remove note only after success
         })
         .catch(error => {
-            console.error('Error sending the note:', error);
+            console.error('Error updating the note:', error);
         });
+    } else {
+        console.error('Invalid note ID or content');
     }
 });
-

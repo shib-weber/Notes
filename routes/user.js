@@ -36,13 +36,13 @@ router.get('/home', (req, res) => {
     res.render('home')
 })
 
-
+/*
 function validateEmailFormat(email) {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return re.test(email);
-}
+}*/
 
-function validateEmailDomain(email, callback) {
+/*function validateEmailDomain(email, callback) {
     const domain = email.split('@')[1];
     dns.resolveMx(domain, (err, addresses) => {
         if (err || addresses.length === 0) {
@@ -51,7 +51,7 @@ function validateEmailDomain(email, callback) {
             callback(true);
         }
     });
-}
+}*/
 
 router.get('/signup', (req, res) => {
     return res.render('signup',{message:''})
@@ -60,7 +60,7 @@ router.get('/signup', (req, res) => {
 router.post('/signup', async(req, res) => {
     const email = req.body.email;
 
-    if (!validateEmailFormat(email)) {
+    /*if (!validateEmailFormat(email)) {
         return res.render('signup', { message: 'Invalid email format' });
     }
 
@@ -69,7 +69,7 @@ router.post('/signup', async(req, res) => {
             return res.render('signup', { message: 'Invalid email domain' });
         }
 
-    });
+    });*/
 
     const password = req.body.password
     if(password.length<8){
@@ -83,7 +83,7 @@ router.post('/signup', async(req, res) => {
         });
         return res.render('login', { message: "Try Logging in" });
     } catch (err) {
-        return res.render('signup', { message: 'Email already exists' });
+        return res.render('signup', { message: 'Name already exists' });
     }
 });
 
@@ -154,6 +154,54 @@ router.get('/fetchNotes', TokenVerify, async (req, res) => {
     } catch (error) {
         console.error('Error fetching notes:', error);
         res.status(500).json({ error: 'Failed to fetch notes' });
+    }
+});
+
+router.get('/edvNote/:id', TokenVerify, async (req, res) => {
+    const id = req.params.id;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).send('Invalid ID format');
+    }
+
+    try {
+        const note = await Note.findById(id);
+        console.log(note)
+        if (!note) {
+            return res.status(404).send('Note not found');
+        }
+        return res.render('edvNote', { note: note });
+    } catch (error) {
+        console.error('Error fetching note:', error);
+        res.status(500).send('Server error');
+    }
+});
+
+router.patch('/edNote/:id', async (req, res) => {
+    const { id } = req.params; // Extract the ID from the URL
+    const { note } = req.body; // Extract the updated note from the request body
+
+    // Validate ID format
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).send({ error: 'Invalid ID format' });
+    }
+
+    try {
+        // Find and update the note
+        const updatedNote = await Note.findByIdAndUpdate(
+            id,
+            { note },
+            { new: true } // Return the updated document
+        );
+
+        if (!updatedNote) {
+            return res.status(404).send({ error: 'Note not found' });
+        }
+
+        res.status(200).send({ message: 'Note updated successfully', note: updatedNote });
+    } catch (error) {
+        console.error('Error updating note:', error);
+        res.status(500).send({ error: 'Server error' });
     }
 });
 
