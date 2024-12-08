@@ -86,6 +86,36 @@ body {
     border-radius: 1rem;
 }
 
+.notes-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 20px;
+}
+
+.note {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.note h3 {
+    margin: 0;
+    font-size: 18px;
+    color: #333;
+}
+
+.note p {
+    margin: 5px 0 0;
+    color: #666;
+    font-size: 14px;
+    white-space: pre-wrap;
+    word-wrap: break-word; 
+    font-family: inherit; 
+}
+
+
 .newNote:hover{
     background-color: #1e1e1e;
 }
@@ -110,5 +140,39 @@ body {
 
     .menu-dropdown li {
         font-size: 0.9rem;
+    }
+    .notes-container {
+        margin: 15px;
+        gap: 8px;
+    }
+
+    .note {
+        padding: 10px;
+    }
+
+    .note h3 {
+        font-size: 16px;
+    }
+
+    .note p {
+        font-size: 12px;
+    }
+}
+@media (max-width: 480px) {
+    .notes-container {
+        margin: 10px;
+        gap: 5px;
+    }
+
+    .note {
+        padding: 8px;
+    }
+
+    .note h3 {
+        font-size: 14px;
+    }
+
+    .note p {
+        font-size: 11px;
     }
 }

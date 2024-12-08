@@ -17,3 +17,37 @@ document.addEventListener('click', (event) => {
 document.querySelector('.newNote').addEventListener('click',()=>{
     window.location.href='/cnNote'
 })
+
+document.addEventListener('DOMContentLoaded', async () => {
+    const notesContainer = document.querySelector('.notes-container');
+
+    // Fetch notes from the server
+    try {
+        const response = await fetch('/fetchNotes', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch notes');
+        }
+
+        const notes = await response.json();
+
+        // Populate notes into the container
+        notesContainer.innerHTML = notes
+            .map(
+                (note) => `
+                <div class="note">
+                    <h3>${note.name}</h3>
+                    <p>${note.note}</p>
+                </div>`
+            )
+            .join('');
+    } catch (error) {
+        console.error('Error fetching notes:', error);
+        notesContainer.innerHTML = '<p>Error loading notes. Please try again later.</p>';
+    }
+});

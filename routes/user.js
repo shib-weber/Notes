@@ -147,5 +147,14 @@ router.post('/cnNote', TokenVerify, async (req, res) => {
     }
 });
 
+router.get('/fetchNotes', TokenVerify, async (req, res) => {
+    try {
+        const notes = await Note.find({}); // Fetch all notes
+        res.status(200).json(notes); // Return notes as JSON
+    } catch (error) {
+        console.error('Error fetching notes:', error);
+        res.status(500).json({ error: 'Failed to fetch notes' });
+    }
+});
 
 module.exports = router
