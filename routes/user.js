@@ -3,6 +3,7 @@ const dns = require('dns');
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 const { User } = require('../models/user')
+const Note = require('../models/notes')
 const jwt = require('jsonwebtoken')
 const cookieParser = require('cookie-parser');
 require('dotenv')
@@ -118,5 +119,33 @@ router.get('/myNotes',TokenVerify,(req,res)=>{
 router.get('/cnNote',TokenVerify,(req,res)=>{
     return res.render('cnNote')
 })
+
+router.post('/cnNote', TokenVerify, async (req, res) => {
+    try {
+        const name = req.user.username;
+        const note = req.body.note;
+
+        // Validate inputs
+        if (!note) {
+            return res.status(400).json({ error: "Note is required" });
+        }
+
+        // Create the note
+        const Newnote = await Note.create({
+            name: name,
+            note: note,
+        });
+
+        res.status(201).json({ message: "Note saved successfully", note: Newnote });
+    } catch (err) {
+        if (err.code === 11000) {
+            res.status(409).json({ error: "Duplicate entry detected" });
+        } else {
+            console.error(err);
+            res.status(500).json({ error: "Internal server error" });
+        }
+    }
+});
+
 
 module.exports = router

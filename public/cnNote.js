@@ -14,3 +14,39 @@ document.addEventListener('click', (event) => {
     }
 });
 
+const noteInput = document.querySelector('#note');
+
+document.addEventListener('DOMContentLoaded', () => {
+    const savedNote = localStorage.getItem('note');
+    if (savedNote) {
+        noteInput.value = savedNote;
+    }
+});
+
+noteInput.addEventListener('input', () => {
+    const note = noteInput.value;
+    localStorage.setItem('note', note);
+});
+
+document.querySelector('#save').addEventListener('click', () => {
+    const note = localStorage.getItem('note'); // Retrieve the note from localStorage
+
+    if (note !== undefined) {
+        fetch('/cnNote', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ note: note }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Note sent successfully:', data);
+            localStorage.removeItem('note'); // Remove note only after success
+        })
+        .catch(error => {
+            console.error('Error sending the note:', error);
+        });
+    }
+});
+
