@@ -159,6 +159,7 @@ router.get('/fetchNotes', TokenVerify, async (req, res) => {
 
 router.get('/edvNote/:id', TokenVerify, async (req, res) => {
     const id = req.params.id;
+    const user = req.user.username
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(400).send('Invalid ID format');
@@ -169,7 +170,7 @@ router.get('/edvNote/:id', TokenVerify, async (req, res) => {
         if (!note) {
             return res.status(404).send('Note not found');
         }
-        return res.render('edvNote', { note: note });
+        return res.render('edvNote', {user:user, note: note });
     } catch (error) {
         console.error('Error fetching note:', error);
         res.status(500).send('Server error');

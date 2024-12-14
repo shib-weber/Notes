@@ -34,11 +34,17 @@
     </nav>
 
     <div class="text-area-container">
-        <textarea id="note" placeholder="Write your notes here...">
-<% if (locals.note) { %><%= note.note %>
-            <% } %>
-        </textarea>
+        <% if (user === note.name) { %>
+<textarea id="note" placeholder="Write your notes here...">
+<% if (locals.note) { %><%= note.note %><% } %>
+</textarea>
+        <% } else { %>
+<textarea id="note" placeholder="Write your notes here..." readonly>
+<% if (locals.note) { %><%= note.note %><% } %>
+</textarea>
+        <% } %>
     </div>
+    
     
     <script src="/edvNote.js"></script>
 </body>
