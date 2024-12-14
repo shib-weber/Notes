@@ -120,6 +120,7 @@ body {
 .seen-status{
     visibility: visible;
     color: green;
+    margin-left: 90%;
 }
 
 
