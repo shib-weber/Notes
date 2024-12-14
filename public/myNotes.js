@@ -21,7 +21,6 @@ document.querySelector('.newNote').addEventListener('click',()=>{
 document.addEventListener('DOMContentLoaded', async () => {
     const notesContainer = document.querySelector('.notes-container');
 
-    // Fetch notes from the server
     try {
         const response = await fetch('/fetchNotes', {
             method: 'GET',
@@ -43,18 +42,20 @@ document.addEventListener('DOMContentLoaded', async () => {
                 <div class="note" data-id="${note._id}">
                     <h3>${note.name}</h3>
                     <p>${note.note}</p>
+                    <span class="seen-status">${note.seen ? '✔✔' : '✔'}</span>
                 </div>`
             )
             .join('');
 
-            const noteElements = notesContainer.querySelectorAll('.note');
-            noteElements.forEach((noteElement) => {
-                noteElement.addEventListener('click', () => {
-                    const noteId = noteElement.getAttribute('data-id');
-                    console.log('Redirecting to note ID:', noteId);
-                    window.location.href = `/edvNote/${noteId}`;
-                });
+        // Add event listeners for redirection
+        const noteElements = notesContainer.querySelectorAll('.note');
+        noteElements.forEach((noteElement) => {
+            noteElement.addEventListener('click', () => {
+                const noteId = noteElement.getAttribute('data-id');
+                console.log('Redirecting to note ID:', noteId);
+                window.location.href = `/edvNote/${noteId}`;
             });
+        });
     } catch (error) {
         console.error('Error fetching notes:', error);
         notesContainer.innerHTML = '<p>Error loading notes. Please try again later.</p>';

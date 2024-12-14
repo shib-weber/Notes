@@ -148,14 +148,32 @@ router.post('/cnNote', TokenVerify, async (req, res) => {
 });
 
 router.get('/fetchNotes', TokenVerify, async (req, res) => {
+    const userId = req.user.username; 
+
     try {
-        const notes = await Note.find({}); // Fetch all notes
-        res.status(200).json(notes); // Return notes as JSON
+        // Update notes by adding the user to `seenBy` if not already present
+        await Note.updateMany(
+            { seenBy: { $ne: userId } }, // Condition: User is not already in the array
+            { $addToSet: { seenBy: userId } } // Add user to `seenBy` array
+        );
+
+        // Fetch all notes with updated seen status
+        const notes = await Note.find({}).lean();
+
+        // Add `seen` status based on the length of `seenBy`
+        const notesWithSeenStatus = notes.map(note => ({
+            ...note,
+            seen: note.seenBy.length >= 2 // Mark as seen if two or more users viewed
+        }));
+
+        res.status(200).json(notesWithSeenStatus);
     } catch (error) {
         console.error('Error fetching notes:', error);
         res.status(500).json({ error: 'Failed to fetch notes' });
     }
 });
+
+
 
 router.get('/edvNote/:id', TokenVerify, async (req, res) => {
     const id = req.params.id;

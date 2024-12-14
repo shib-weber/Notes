@@ -117,6 +117,11 @@ body {
     font-family: inherit; 
 }
 
+.seen-status{
+    visibility: visible;
+    color: green;
+}
+
 
 .newNote:hover{
     background-color: #1e1e1e;

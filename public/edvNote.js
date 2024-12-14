@@ -44,6 +44,7 @@ document.querySelector('#save').addEventListener('click', () => {
         })
         .then(response => {
             if (!response.ok) {
+                localStorage.removeItem('note');
                 throw new Error('Failed to update the note');
             }
             return response.json();
