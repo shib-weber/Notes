@@ -16,12 +16,12 @@ document.addEventListener('click', (event) => {
 
 const noteInput = document.querySelector('#note');
 
-document.addEventListener('DOMContentLoaded', () => {
+/*document.addEventListener('DOMContentLoaded', () => {
     const savedNote = localStorage.getItem('note');
     if (savedNote) {
         noteInput.value = savedNote;
     }
-});
+});*/
 
 noteInput.addEventListener('input', () => {
     const note = noteInput.value;
@@ -33,11 +33,9 @@ document.querySelector('#save').addEventListener('click', () => {
 
     // Extract the ID from the current URL
     const path = window.location.pathname;
-    const idMatch = path.match(/\/edNote\/(.+)/); // Match "/edNote/{id}"
-    const noteId = idMatch ? idMatch[1] : null;
-
-    if (noteId && note !== undefined) {
-        fetch(`/edNote/${noteId}`, {
+    console.log(path)
+    
+        fetch(path, {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json",
@@ -57,7 +55,4 @@ document.querySelector('#save').addEventListener('click', () => {
         .catch(error => {
             console.error('Error updating the note:', error);
         });
-    } else {
-        console.error('Invalid note ID or content');
-    }
 });

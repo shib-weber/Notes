@@ -166,7 +166,6 @@ router.get('/edvNote/:id', TokenVerify, async (req, res) => {
 
     try {
         const note = await Note.findById(id);
-        console.log(note)
         if (!note) {
             return res.status(404).send('Note not found');
         }
@@ -177,7 +176,7 @@ router.get('/edvNote/:id', TokenVerify, async (req, res) => {
     }
 });
 
-router.patch('/edNote/:id', async (req, res) => {
+router.patch('/edvNote/:id', async (req, res) => {
     const { id } = req.params; // Extract the ID from the URL
     const { note } = req.body; // Extract the updated note from the request body
 
